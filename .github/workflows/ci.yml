@@ -8,12 +8,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]  # test against multiple Node versions
+        node-version: [18.x, 20.x]
 
     steps:
     - name: Checkout repository
@@ -34,7 +33,7 @@ jobs:
       run: npm run lint || echo "Lint skipped"
 
     - name: Upload coverage (optional)
-      if: success() && exists('coverage/lcov.info')
+      if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
