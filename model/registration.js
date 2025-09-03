@@ -74,8 +74,7 @@ const registrationSchema = new mongoose.Schema({
       required: [true, "Postcode is required"],
       trim: true,
       match: [/^\d{4}$/, "Postcode must be 4 digits"]
-  }
-
+    }
     
 },{timestamps: true});
 
@@ -83,4 +82,4 @@ registrationSchema.plugin(AutoIncrement, {inc_field: "regId"})
 
 const Registration = mongoose.model =("Registration",registrationSchema)
 
-module.exports = Registration``
+module.exports = Registration
