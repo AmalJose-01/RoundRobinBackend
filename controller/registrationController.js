@@ -77,7 +77,7 @@ const registrationController = {
       console.log("token....",token);
       
 
-      
+
 
       return res.status(201).json({
         status: 201,
@@ -89,10 +89,10 @@ const registrationController = {
       console.log("registration error === ",error);
 
 
-      console.error("Error creating user:", err.message);
+      console.error("Error creating user:", error.message);
 
-      if (err.name === "ValidationError") {
-        const errors = Object.values(err.errors).map((e) => e.message);
+      if (error.name === "ValidationError") {
+        const errors = Object.values(error.errors).map((e) => e.message);
 
         return res.status(400).json({
           status: 400,
@@ -106,7 +106,7 @@ const registrationController = {
       
       res.status(500).json({
         status: 500,
-        details: err.message,
+        details: error.message,
       });
     }
   },
