@@ -4,8 +4,9 @@
   "description": "Schedudel social matches whit randum selection based on the Grade",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node index"
+    "dev": "node index",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,8 @@
     "mongoose": "^8.18.0",
     "mongoose-sequence": "^6.0.1",
     "validator": "^13.15.15"
+  },
+  "devDependencies": {
+    "jest": "^30.1.3"
   }
 }
