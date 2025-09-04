@@ -1,7 +1,7 @@
 {
   "name": "y",
   "version": "1.0.0",
-  "description": "Schedudel social matches whit randum selection based on the Grade",
+  "description": "Schedule social matches whit random selection based on the Grade",
   "main": "index.js",
   "scripts": {
     "dev": "node index",
@@ -9,8 +9,11 @@
     "test:watch": "jest --watch"
   },
   "jest": {
-  "coverageReporters": ["text", "lcov"]
-},
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AmalJose-01/RoundRobinBackend.git"
