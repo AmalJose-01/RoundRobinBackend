@@ -4,9 +4,8 @@ require("dotenv");
 
 const registrationController = {
   registration: async (req, res) => {
-
     console.log("registration......");
-    
+
     const {
       firstName,
       lastName,
@@ -41,7 +40,7 @@ const registrationController = {
       });
     }
     try {
-            console.log("registration......1");
+      console.log("registration......1");
 
       const registrationResponse = await Registration.create({
         firstName,
@@ -61,10 +60,9 @@ const registrationController = {
       if (!registrationResponse) {
         return res.status(400).json({
           status: 400,
-          message: "Failed to create restaurant",
+          message: "Failed to registration",
         });
       }
-
 
       console.log("registration......2");
       const payLoad = {
@@ -74,20 +72,16 @@ const registrationController = {
 
       const token = jwt.sign(payLoad, process.env.SECURITY_KEY);
 
-      console.log("token....",token);
-      
-
-
+      console.log("token....", token);
 
       return res.status(201).json({
         status: 201,
         token: token,
         message: "User created successfully",
-        user: registrationResponse
+        user: registrationResponse,
       });
     } catch (error) {
-      console.log("registration error === ",error);
-
+      console.log("registration error === ", error);
 
       console.error("Error creating user:", error.message);
 
@@ -100,13 +94,11 @@ const registrationController = {
         });
       }
 
-      console.log("registration error === ",err);
-      
+      console.log("registration error === ", err);
 
-      
       res.status(500).json({
         status: 500,
-        details: error.message,
+        details: "Internal Server Error",
       });
     }
   },

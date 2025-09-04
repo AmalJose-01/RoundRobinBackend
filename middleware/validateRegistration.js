@@ -28,7 +28,7 @@ const validateRegistration = async (req, res, next) => {
   } catch (error) {
     console.log("validateRegistration:===",error);
     
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status().json({ success: false, message: "Server error" });
   }
 };
 

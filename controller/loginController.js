@@ -45,7 +45,7 @@ const loginController = {
         expiresIn: "1h",
       });
 
-        const refreshToken = jwt.sign(payLoad, process.env.REFRESH_KEY, {
+      const refreshToken = jwt.sign(payLoad, process.env.REFRESH_KEY, {
         expiresIn: "3d",
       });
 
@@ -58,7 +58,6 @@ const loginController = {
         refreshToken: refreshToken,
         user: userWithoutPassword,
       });
-
     } catch (error) {
       console.log("login error === ", error);
 
@@ -77,7 +76,77 @@ const loginController = {
 
       res.status(500).json({
         status: 500,
-        details: error.message,
+        details: "Internal Server Error",
+      });
+    }
+  },
+
+  updatePassword: async (req, res) => {
+    try {
+      const { password, currentPassword } = req.body;
+      console.log("login......");
+
+      // const userId = req.userId;
+
+      //400 Bad Request → Missing or invalid input
+      if (!password) {
+        return res.status(400).json({
+          message: "Email is required",
+        });
+      }
+
+      const userDetail = await Registration.findById(req.userId).select(
+        "+password"
+      );
+      if (!userDetail) {
+        res.status(404).json({
+          message: "Unable to update the password",
+        });
+      }
+
+      const isMatch = await userDetail.comparePassword(currentPassword);
+      if (!isMatch) {
+        res.status(400).json({
+          message: "Incorrect current password",
+        });
+      }
+
+      // assign new password (hook will hash it)
+      userDetail.password = password;
+      const updateResponse = await userDetail.save();
+
+      console.log("updateResponse", updateResponse);
+
+      if (!updateResponse) {
+        return res.status(400).json({
+          status: 400,
+          message: "Failed to update password",
+        });
+      }
+
+      return res.status(201).json({
+        status: 201,
+        message: "Password updated",
+      });
+    } catch (error) {
+      console.log("login error === ", error);
+
+      console.error("Error creating user:", error.message);
+
+      if (error.name === "ValidationError") {
+        const errors = Object.values(error.errors).map((e) => e.message);
+
+        return res.status(400).json({
+          status: 400,
+          details: errors,
+        });
+      }
+
+      console.log("login error === ", err);
+
+      res.status(500).json({
+        status: 500,
+        details: "Internal Server Error",
       });
     }
   },
