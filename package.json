@@ -8,6 +8,9 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
+  "jest": {
+  "coverageReporters": ["text", "lcov"]
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AmalJose-01/RoundRobinBackend.git"
