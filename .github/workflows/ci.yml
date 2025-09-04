@@ -37,9 +37,13 @@ jobs:
         run: npm run test -- --coverage || echo "Coverage skipped"
 
       # 6️⃣ Upload coverage artifact if exists
-      - name: Upload coverage
-        if: always()
+      - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/lcov.info
+
+
+
+
+          
