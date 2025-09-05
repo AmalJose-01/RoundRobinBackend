@@ -91,7 +91,7 @@ const loginController = {
       //400 Bad Request → Missing or invalid input
       if (!password) {
         return res.status(400).json({
-          message: "Email is required",
+          message: "New password is missing",
         });
       }
 
@@ -120,13 +120,13 @@ const loginController = {
       if (!updateResponse) {
         return res.status(400).json({
           status: 400,
-          message: "Failed to update password",
+          message: "Unable to update the password",
         });
       }
 
       return res.status(201).json({
         status: 201,
-        message: "Password updated",
+        message: "Password updated successfully",
       });
     } catch (error) {
       console.log("login error === ", error);
@@ -150,6 +150,8 @@ const loginController = {
       });
     }
   },
+
+
 };
 
 module.exports = loginController;
