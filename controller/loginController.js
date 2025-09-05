@@ -91,7 +91,7 @@ const loginController = {
       //400 Bad Request → Missing or invalid input
       if (!password) {
         return res.status(400).json({
-          message: "New password is missing",
+          message: "Password is required",
         });
       }
 
@@ -100,7 +100,7 @@ const loginController = {
       );
       if (!userDetail) {
         res.status(404).json({
-          message: "Unable to update the password",
+          message: "User not found",
         });
       }
 

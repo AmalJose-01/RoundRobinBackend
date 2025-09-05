@@ -1,5 +1,8 @@
 const request = require("supertest");
 const express = require("express");
+const jwt = require("jsonwebtoken");
+
+
 
 jest.mock("../model/registration", () => ({
   findOne: jest.fn(),
