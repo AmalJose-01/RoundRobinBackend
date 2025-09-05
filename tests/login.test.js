@@ -1,7 +1,9 @@
 const request = require("supertest");
 const express = require("express");
 const jwt = require("jsonwebtoken");
-
+const Registration = require("../model/registration");
+const loginController = require("../controller/loginController");
+const { sanitizeFilter } = require("mongoose");
 
 
 jest.mock("../model/registration", () => ({
@@ -9,8 +11,7 @@ jest.mock("../model/registration", () => ({
   findById: jest.fn(),
 }));
 
-const Registration = require("../model/registration");
-const loginController = require("../controller/loginController");
+
 
 const app = express();
 app.use(express.json());
@@ -123,7 +124,7 @@ describe("Update Password API", () => {
     expect(res.body.message).toBe("Password is required");
   });
 
-  it("should return 404 if Unable to update the password", async () => {
+  it("should return 404 if Unable to fine user", async () => {
     Registration.findById.mockReturnValue({
       select: jest.fn().mockResolvedValue(null),
     });
@@ -134,10 +135,12 @@ describe("Update Password API", () => {
     });
 
     expect(res.status).toBe(404);
-    expect(res.body.message).toBe("User not found");
+    expect(res.body.message).toBe("Unable to fine user");
   });
 
-  it("should return 400 if current password is incorrect", async () => {
+
+
+  it("should return 401 if Incorrect current password", async () => {
     const mockUser = {
       comparePassword: jest.fn().mockResolvedValue(false),
     };
@@ -151,15 +154,43 @@ describe("Update Password API", () => {
       password: "newpass",
     });
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(401);
     expect(res.body.message).toBe("Incorrect current password");
   });
+
+
+
+it("should return 500 if Unable to update the password", async () => {
+  Registration.findById.mockReturnValue({
+    password: 'hashedOldPassword',
+    comparePassword: jest.fn().mockResolvedValue(true),
+    save: jest.fn().mockResolvedValue(null),
+  });
+
+  const res = await request(app).post("/api/v1/update-password").send({
+    currentPassword: "oldpass",
+    password: "newpass",
+  });
+
+  console.log(res.body); // For debugging
+
+  expect(res.status).toBe(500);
+  expect(res.body.message).toBe("Unable to update the password");
+});
+
+
+
+
 
   it("should return 201 if password updated successfully", async () => {
     const mockUser = {
       password: "hashed",
       comparePassword: jest.fn().mockResolvedValue(true),
       save: jest.fn().mockResolvedValue(true),
+      toObject: jest.fn().mockReturnValue({
+      _id: "123",
+      emailID: "test@example.com",
+    }),
     };
 
     Registration.findById.mockReturnValue({

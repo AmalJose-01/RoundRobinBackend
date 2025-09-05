@@ -34,8 +34,8 @@ const registrationController = {
       !postcode ||
       !dob
     ) {
-      res.status(404).json({
-        status: 404,
+      res.status(400).json({
+        status: 400,
         massage: "Incomplete input data!",
       });
     }
@@ -58,8 +58,8 @@ const registrationController = {
 
       //Save failure
       if (!registrationResponse) {
-        return res.status(400).json({
-          status: 400,
+        return res.status(500).json({
+          status: 500,
           message: "Failed to registration",
         });
       }

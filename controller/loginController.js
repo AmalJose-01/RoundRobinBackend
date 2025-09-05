@@ -61,7 +61,7 @@ const loginController = {
     } catch (error) {
       console.log("login error === ", error);
 
-      console.error("Error creating user:", error.message);
+      console.error("Error login:", error.message);
 
       if (error.name === "ValidationError") {
         const errors = Object.values(error.errors).map((e) => e.message);
@@ -100,13 +100,13 @@ const loginController = {
       );
       if (!userDetail) {
         res.status(404).json({
-          message: "User not found",
+          message: "Unable to fine user",
         });
       }
 
       const isMatch = await userDetail.comparePassword(currentPassword);
       if (!isMatch) {
-        res.status(400).json({
+        res.status(401).json({
           message: "Incorrect current password",
         });
       }
@@ -118,8 +118,8 @@ const loginController = {
       console.log("updateResponse", updateResponse);
 
       if (!updateResponse) {
-        return res.status(400).json({
-          status: 400,
+        return res.status(500).json({
+          status: 500,
           message: "Unable to update the password",
         });
       }
@@ -131,7 +131,7 @@ const loginController = {
     } catch (error) {
       console.log("login error === ", error);
 
-      console.error("Error creating user:", error.message);
+      console.error("Error update password:", error.message);
 
       if (error.name === "ValidationError") {
         const errors = Object.values(error.errors).map((e) => e.message);
@@ -146,7 +146,7 @@ const loginController = {
 
       res.status(500).json({
         status: 500,
-        details: "Internal Server Error",
+        details: "Unable to update the password",
       });
     }
   },
