@@ -151,7 +151,57 @@ const loginController = {
     }
   },
 
+  resetToken: async (req, res) => {
+    try {
+      const verifyToken = req.verifyToken;
 
+      console.log("userDetail", verifyToken);
+
+      const payLoad = {
+        id: verifyToken.id,
+        emailID: verifyToken.emailID,
+      };
+
+
+      const token = jwt.sign(payLoad, process.env.SECURITY_KEY, {
+        expiresIn: "1h",
+      });
+
+      const refreshToken = jwt.sign(payLoad, process.env.REFRESH_KEY, {
+        expiresIn: "3d",
+      });
+
+
+      res.status(200).json({
+        message: "Token",
+        accessToken: token,
+        refreshToken: refreshToken,
+      });
+
+
+
+    } catch (error) {
+      console.log("login error === ", error);
+
+      console.error("Error update password:", error.message);
+
+      if (error.name === "ValidationError") {
+        const errors = Object.values(error.errors).map((e) => e.message);
+
+        return res.status(400).json({
+          status: 400,
+          details: errors,
+        });
+      }
+
+      console.log("login error === ", err);
+
+      res.status(500).json({
+        status: 500,
+        details: "Unable to generate token",
+      });
+    }
+  },
 };
 
 module.exports = loginController;
