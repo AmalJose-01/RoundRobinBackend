@@ -200,6 +200,7 @@ it('should return 400 with details when ValidationError occurs', async () => {
     details: ['First name is required', 'Last name is required', 'Phone number is required'],
   });   
 });
+
   
 
 });
