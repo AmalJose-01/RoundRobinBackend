@@ -81,9 +81,9 @@ const registrationController = {
         user: registrationResponse,
       });
     } catch (error) {
-      console.log("registration error === ", error);
+      // console.log("registration error === ", error);
 
-      console.error("Error creating user:", error.message);
+      // console.error("Error creating user:", error.message);
 
       if (error.name === "ValidationError") {
         const errors = Object.values(error.errors).map((e) => e.message);
@@ -94,7 +94,7 @@ const registrationController = {
         });
       }
 
-      console.log("registration error === ", err);
+      console.log("registration error === ", error);
 
       res.status(500).json({
         status: 500,
@@ -102,6 +102,64 @@ const registrationController = {
       });
     }
   },
+  updateUser: async (req, res) => {
+    console.log("updateUser......");
+    try {
+      const userId = req.userId;
+      const updateData = req.body;
+
+      if (!userId) {
+        return res.status(400).json({
+          status: 400,
+          message: "User ID is required",
+        });
+      }
+
+      if(!updateData || Object.keys(updateData).length === 0){
+        return res.status(400).json({
+          status: 400,
+          message: "No data provided for update",
+        });
+      }
+
+      const updatedUser = await Registration.findByIdAndUpdate(
+        userId,
+        updateData
+      );
+
+      if (!updatedUser) {
+        return res.status(404).json({
+          status: 404,
+          message: "User not found",
+        });
+      }
+
+      res.status(200).json({
+        status: 200,
+        message: "User updated successfully",
+        user: updatedUser,
+      });
+
+      
+    } catch (error) {
+      if (error.name === "ValidationError") {
+        const errors = Object.values(error.errors).map((e) => e.message);
+
+        return res.status(400).json({
+          status: 400,
+          details: errors,
+        });
+      }
+      res.status(500).json({
+        status: 500,
+        details: "Internal Server Error",
+      });
+    }
+  }
+
+
+
+  
 };
 
 module.exports = registrationController;

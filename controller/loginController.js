@@ -61,7 +61,7 @@ const loginController = {
     } catch (error) {
       console.log("login error === ", error);
 
-      console.error("Error login:", error.message);
+      console.log("Error login:", error.message);
 
       if (error.name === "ValidationError") {
         const errors = Object.values(error.errors).map((e) => e.message);
@@ -72,7 +72,7 @@ const loginController = {
         });
       }
 
-      console.log("login error === ", err);
+      console.log("login error === ", error);
 
       res.status(500).json({
         status: 500,
@@ -131,7 +131,7 @@ const loginController = {
     } catch (error) {
       console.log("login error === ", error);
 
-      console.error("Error update password:", error.message);
+      console.log("Error update password:", error.message);
 
       if (error.name === "ValidationError") {
         const errors = Object.values(error.errors).map((e) => e.message);
@@ -142,11 +142,11 @@ const loginController = {
         });
       }
 
-      console.log("login error === ", err);
+      console.log("login error === ", error);
 
       res.status(500).json({
         status: 500,
-        details: "Unable to update the password",
+        message: "Unable to update the password",
       });
     }
   },
@@ -183,7 +183,7 @@ const loginController = {
     } catch (error) {
       console.log("login error === ", error);
 
-      console.error("Error update password:", error.message);
+      console.log("Error update password:", error.message);
 
       if (error.name === "ValidationError") {
         const errors = Object.values(error.errors).map((e) => e.message);
@@ -194,7 +194,7 @@ const loginController = {
         });
       }
 
-      console.log("login error === ", err);
+      console.log("login error === ", error);
 
       res.status(500).json({
         status: 500,
